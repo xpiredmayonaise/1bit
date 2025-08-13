@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>1bit — Pixel Art Community</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <h1>1bit</h1>
+    <nav id="nav">
+      <button onclick="ui.click(); showPage('home')">Home</button>
+      <button onclick="ui.click(); goGallery()">Gallery</button>
+      <button onclick="ui.click(); showPage('about')">About</button>
+      <button onclick="ui.click(); showPage('contact')">Contact</button>
+      <button id="profileBtn" class="hidden" onclick="ui.click(); showPage('profile')">Profile</button>
+      <button id="authBtn" onclick="ui.click(); showPage('auth')">Log in / Sign up</button>
+      <button id="logoutBtn" class="hidden" onclick="ui.click(); auth.logout()">Logout</button>
+      <button title="Toggle theme" onclick="ui.click(); ui.toggleTheme()">🌓</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section id="home" class="page">
+      <h2>Welcome to 1bit</h2>
+      <p>Your source of raw, pure pixel art.</p>
+      <img class="hero" src="https://upload.wikimedia.org/wikipedia/commons/5/59/Invader_pixel_art_London.jpg" alt="Pixel Art Example">
+      <p class="caption">Retro vibes only.</p>
+    </section>
+
+    <!-- GALLERY (locked until login) -->
+    <section id="gallery" class="page hidden">
+      <h2>Community Gallery</h2>
+
+      <div id="lockedMsg" class="notice hidden">
+        🔒 Please log in to view and upload pixel art.
+      </div>
+
+      <div id="galleryContent" class="hidden">
+        <div class="art-grid" id="artGrid">
+          <!-- starter items -->
+        </div>
+        <button class="secondary" onclick="ui.click(); gallery.loadMore()">+ Load More Art</button>
+
+        <h3>Your Uploads</h3>
+        <div class="uploader">
+          <input type="file" accept="image/*" onchange="gallery.previewUpload(event)">
+          <div id="previewContainer"></div>
+          <button onclick="ui.click(); gallery.saveUpload()">Add to My Gallery</button>
+        </div>
+
+        <h3>My Gallery</h3>
+        <div class="art-grid" id="myGrid"></div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="page hidden">
+      <h2>About</h2>
+      <p>1bit is a tiny pixel-art project turned demo community site for a TLE assignment. It runs entirely in your browser (no servers). Expect retro fonts, crunchy pixels, and good vibes.</p>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="page hidden">
+      <h2>Contact</h2>
+      <p>Got feedback? Drop it… into the void.</p>
+      <p>📧 email: 1bit@pixels.fake</p>
+    </section>
+
+    <!-- PROFILE (visible when logged in) -->
+    <section id="profile" class="page hidden">
+      <h2>My Profile</h2>
+      <div class="card">
+        <div class="avatar" id="avatarPreview">🧊</div>
+        <div class="profile-row"><span>Username:</span> <strong id="profUsername">—</strong></div>
+        <div class="profile-row"><span>Email:</span> <strong id="profEmail">—</strong></div>
+        <div class="profile-row">
+          <span>Avatar (optional):</span>
+          <input type="file" accept="image/*" onchange="profile.setAvatar(event)">
+        </div>
+      </div>
+    </section>
+
+    <!-- AUTH -->
+    <section id="auth" class="page hidden">
+      <h2>Join 1bit</h2>
+      <div class="tabs">
+        <button id="tabLogin" class="active" onclick="ui.click(); auth.switchTab('login')">Log In</button>
+        <button id="tabSignup" onclick="ui.click(); auth.switchTab('signup')">Sign Up</button>
+      </div>
+
+      <form id="loginForm" onsubmit="auth.login(event)">
+        <div class="field">
+          <label>Username</label>
+          <input required name="username" placeholder="e.g. pixelkid">
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input required type="password" name="password" placeholder="••••••••">
+        </div>
+        <button type="submit">Log In</button>
+      </form>
+
+      <form id="signupForm" class="hidden" onsubmit="auth.signup(event)">
+        <div class="field">
+          <label>Username</label>
+          <input required name="username" minlength="3" maxlength="16" pattern="[a-zA-Z0-9_]+" placeholder="letters, numbers, _">
+        </div>
+        <div class="field">
+          <label>Email (optional)</label>
+          <input type="email" name="email" placeholder="you@example.com">
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input required type="password" name="password" minlength="6" placeholder="min 6 chars">
+        </div>
+        <div class="field">
+          <label>Confirm Password</label>
+          <input required type="password" name="confirm" minlength="6" placeholder="repeat password">
+        </div>
+        <button type="submit">Create Account</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>Created by Benjamin U. Pakingan III. • 1bit</p>
+  </footer>
+
+  <div id="toast"></div>
+</body>
+</html>
